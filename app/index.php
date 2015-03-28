@@ -2,17 +2,22 @@
 <html>
     <head>
         <title>Freez It !</title>
-       <script type="text/javascript" src="http://www.google.com/jsapi?key=VOTRE_CLE"></script>
-<script type="text/javascript">google.load("jquery", "1.8");</script>
+     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+<script type="text/javascript" src="http://www.youtube.com/apiplayer?enablejsapi=1&version=3"></script>
+<script type="text/javascript" src="play.js"></script>
     </head>    
     <body>
-        
+        <!--<iframe id="frameyt" src="" height="200px" width="600px">
+        </iframe>-->
+        <span id="search-container"></span>
+        <div id="search-container">Player here</div>
         <form method="GET" action="index.php">
             Artiste(s) <input type="text" name="artist" 
                    value="<?php echo filter_input(INPUT_GET, "artist")?>"/><br/>
             Album <input type="text" name="album" 
                    value="<?php echo filter_input(INPUT_GET, "album")?>"/><br/>
-            <input type="submit" name="submit" value="FI Dis-moi quoi??"/><br/>
+            <input type="submit" name="submit" value="Eh! Dis-moi quoi?"/><br/>
         </form>
 <?php
 include("php-gracenote/Gracenote.class.php");
@@ -42,14 +47,15 @@ if($album=="")
 if(isset($results[0]))
 {
     echo "<img src='".$results[0]["artist_image_url"]  ."'><span id='authorBioNO'/>";
-    echo $results[0]["artist_bio_url"];
+    echo file_get_contents($results[0]["artist_bio_url"]);
 }
 
 
 $i=0;
+$j=0;
 while (isset($results[$i])) :
-    ?>
-<?php
+global $j;
+global $i;
 $result0 = $api->fetchAlbum($results[$i]["album_gnid"]);
 echo "<img src='".($result0[0]["album_art_url"])."'>";
 echo "<h2><a href='album='>";
@@ -60,7 +66,17 @@ echo "</a></h2>";
 echo "<ul>";
     foreach($result0[0]['tracks'] as $track){
         // again echo anything here you would like.
-        echo "<li>".$track["track_title"]."</li>";
+        echo "<li>".$track["track_title"];
+        // Adding span for music playing on youtube
+        echo "<input type='text' class='musicSpan' id='musicSpan".$j."' value=\"".
+                $result0[0]["album_artist_name"].", ".
+                $result0[0]["album_title"] .",".
+                $track["track_title"]."\"/><input type='button' value='play song'".
+                
+                " onclick=\"javascript:playsong('#musicSpan".$j."'\");'".
+                
+                "/></li>";
+        $j++;
     }
 echo "</ul>";
 echo "<ul>";
@@ -69,21 +85,13 @@ echo "<ul>";
         echo "<li>".$genre['text']."</li>";
     }
 echo "</ul>";
-            ?>
-<script>
-    echo $results["review_url"];
-</script>
-        <?php
+echo file_get_contents($results[$i]["review_url"]);
 
 $i++;
 endwhile;
 
 ?>
-        <textarea><?php print_r($results);?></textarea>
-
-        <script>
-        
-</script>
+<div id="#player"></div>
     </body>
 
     
