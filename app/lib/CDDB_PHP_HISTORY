@@ -1,0 +1,41 @@
+CDDB PHP Protocol Server HOWTO
+
+Copyright (C) 2006  Massimo Magnano (max.maxm@tiscali.it)
+ 
+ current version = 0.0.8 (beta 3)
+ 
+------------------------------------------------------------------------------------------
+
+TO-DO:
+
+1) Update the Indexes using the freedb-update-XX-XX.tar.bz2 files
+2) Possibility of using mysql or sqllite databases, importing the data.
+
+History:
+
+0.0.8 Changed the structure of Fuzzy Indexes Files 
+      Added the DiscId Indexes File (now "exact matches query" run in < 1 sec)
+      Add possibility to specify log file location and to disable it
+      Added type of indexes in cddb_build_indexes Command Line
+      Total Time=1.2 sec
+
+0.0.7 Added Indexes by Disclen in Fuzzy Indexes Files to increase speed of Fuzzy (6 times quicker than 0.0.6)
+      Other optimizations
+      Total Time=3.6 sec
+
+0.0.6 Changed the structure of Fuzzy Indexes Files to increase speed (20 times quicker than 0.0.5)
+      More restrictive checking the Track Num and Offsets in Exact Matches  
+      Total Time=7 sec
+
+0.0.5 Some Bug fixes
+      Added possibility to run from Command line and to pass parameters with POST Method
+      Added the Inexact Matches using Fuzzy Indexes Files 
+      
+0.0.4 First implementation of cddb_build_indexes (fuzzy)
+      Implementation of LSCAT
+
+0.0.3 Speed optimization in QUERY (5 times quicker than 0.0.2)
+
+0.0.2 Implementation of QUERY and READ 
+
+0.0.1 First Testing release 

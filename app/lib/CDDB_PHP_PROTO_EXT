@@ -1,0 +1,51 @@
+Extensions to CDDB Server Protocol implemented by PHP Version
+
+(c) 2006 Massimo Magnano 
+-------------------------------------------------------------
+
+AT THIS TIME (Version 0.0.6) THE query_dtitle EXTENSION IS IMPLEMENTED
+BUT IN A VERY SLOW MODE, IF YOU USE IT FROM A WEB SERVER YOU CAN GET A
+"CGI TIMEOUT" ERROR.... THE WAY TO QUICK IT IS : DO AN INDEX SORTED BY ARTIST/TITLE
+
+Query database for matching Artist e\o Title:
+------------------------------------
+Client command:
+-> cddb query_dtitle categ / artist / title 
+
+    categ:
+	    Category or *
+	    
+    artist:
+	    Artist Name  or *
+	    
+    title:
+      Album Title  or *
+      
+Server response:
+<- code categ discid dtitle
+	or
+<- code close matches found
+<- categ discid dtitle
+<- categ discid dtitle
+<- (more matches...)
+<- .
+
+    code:
+	200	Found one  match
+	210 Found more matches, list follows (until terminating marker)
+	202	No match found
+	409	No handshake
+    categ:
+	CD category.  Example: rock
+    discid:
+	CD disc ID number of the found entry.  Example: f50a3b13
+    dtitle:
+	The Disc Artist and Disc Title (The DTITLE line).  For example:
+	Pink Floyd / The Dark Side of the Moon
+ 
+for example  :
+ cddb query_dtitle misc / Pink Floyd / *  -> return all Pink Floyd Albums in misc category
+ 
+WARNING : Is not a good idea to make "query_dtitle * / * / *", it return the entire Database.
+          Clients that use this command must increase the timeout value.
+ 
