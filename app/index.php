@@ -1,16 +1,43 @@
-
 <html>
     <head>
         <title>Freez It !</title>
      <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
-<script type="text/javascript" src="http://www.youtube.com/apiplayer?enablejsapi=1&version=3"></script>
-<script type="text/javascript" src="play.js"></script>
+<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+<script type="text/javascript">
+// After the API loads, call a function to enable the search box.
+function handleAPILoaded() {
+  $('#search-button').attr('disabled', false);
+}
+
+// Search for a specified string.
+function playsong(searchStr) {
+    var input = document.getElementById(searchStr);
+    
+    var q = input.value;
+  
+    var request = gapi.client.youtube.search.list({
+    q: q,
+    part: 'snippet'
+  });
+
+  request.execute(function(response) {
+    var str = JSON.stringify(response.result);
+    $('#search-container').html('<pre>' + str + '</pre>');
+    
+  });
+}
+
+function playSong()
+{
+    
+    
+}
+</script>
     </head>    
     <body>
         <!--<iframe id="frameyt" src="" height="200px" width="600px">
         </iframe>-->
-        <span id="search-container"></span>
         <div id="search-container">Player here</div>
         <form method="GET" action="index.php">
             Artiste(s) <input type="text" name="artist" 
@@ -66,16 +93,13 @@ echo "</a></h2>";
 echo "<ul>";
     foreach($result0[0]['tracks'] as $track){
         // again echo anything here you would like.
-        echo "<li>".$track["track_title"];
-        // Adding span for music playing on youtube
-        echo "<input type='text' class='musicSpan' id='musicSpan".$j."' value=\"".
-                $result0[0]["album_artist_name"].", ".
-                $result0[0]["album_title"] .",".
-                $track["track_title"]."\"/><input type='button' value='play song'".
-                
-                " onclick=\"javascript:playsong('#musicSpan".$j."'\");'".
-                
-                "/></li>";
+    ?>
+    <li><?php echo $track["track_title"]; ?>
+        <input type='text' class='musicSpan' id='musicSpan<?php echo $j; ?>' 
+               value="<?php echo $result0[0]["album_artist_name"]; ?> , <?php echo $result0[0]["album_title"]; ?> , <?php echo $track["track_title"]; ?>" />
+        <input type='button' value='play song' onclick="javascript:playsong('musicSpan<?php echo $j; ?>');" />
+    </li>
+    <?php
         $j++;
     }
 echo "</ul>";
