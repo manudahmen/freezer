@@ -1,10 +1,12 @@
 <html>
     <head>
         <title>Freez It !</title>
-     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
-<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-<script type="text/javascript">
+        <link href="css/page.css" type="text/css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+        <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+
+        <script type="text/javascript">
 // After the API loads, call a function to enable the search box.
 function handleAPILoaded() {
   $('#search-button').attr('disabled', false);
@@ -39,6 +41,7 @@ function playSong()
         <!--<iframe id="frameyt" src="" height="200px" width="600px">
         </iframe>-->
         <div id="search-container">Player here</div>
+        <div id="search-container"
         <form method="GET" action="index.php">
             Artiste(s) <input type="text" name="artist" 
                    value="<?php echo filter_input(INPUT_GET, "artist")?>"/><br/>
