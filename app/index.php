@@ -4,28 +4,19 @@
         <link href="css/page.css" type="text/css" rel="stylesheet" />
         <script src="scripts/jquery-1.11.2.js"></script>
         <script type="text/javascript">
-            // Search for a specified string.
+           // Search for a specified string.
             function playsong(searchStr) {
-                var input = document.getElementById(searchStr);
-
-                $("#player").html(input.innerHTML = "regarde y a rien pour le moment!" + 
-                "<a href='https://www.youtube.com/results?search_query="
-                encodeURIComponent(searchStr)+"' target='new'>link</a>");
-
-                var q = input.value;
-
-                var request = gapi.client.youtube.search.list({
-                    q: q,
-                    part: 'snippet'
-                });
-
-                request.execute(function (response) {
-                    var str = JSON.stringify(response.result);
-                    $('#search-container').html('<pre>' + str + '</pre>');
-
-                });
+                $("#search-container").html("regarde y a rien pour le moment!" + 
+                "<a href='https://www.youtube.com/results?search_query=" +
+                searchStr+"' target='new'>link</a>");
             }
-        </script>
+            
+                $( "a" ).click(function( event ) {
+                event.preventDefault();
+                playsong($( this ).attr("value"));
+            });
+            
+         </script>
     </head>    
     <body>
         <!--<iframe id="frameyt" src="" height="200px" width="600px">
@@ -99,7 +90,7 @@
                     <li><?php echo $track["track_title"]; ?>
                         <input type='text' class='musicSpan' id='musicSpan<?php echo $j; ?>' 
                                value="<?php echo $result0[0]["album_artist_name"]; ?> , <?php echo $result0[0]["album_title"]; ?> , <?php echo $track["track_title"]; ?>" />
-                        <input type='button' value='play song' onclick="playsong('musicSpan<?php echo $j; ?>');" />
+                        <input type='button' value='play song' onclick="playsong('<?php echo rawurlencode($result0[0]["album_artist_name"]." ". $result0[0]["album_title"] ." ".$track["track_title"]); ?>');" />
                     </li>
         <?php
         $j++;
