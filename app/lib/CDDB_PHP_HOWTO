@@ -1,0 +1,153 @@
+CDDB PHP Protocol Server HOWTO
+
+Copyright (C) 2006  Massimo Magnano (max.maxm@tiscali.it)
+
+ current version = 0.0.8 (beta 3)
+
+------------------------------------------------------------------------------------------
+
+CONTENT INDEX :
+   1) INTRODUCTION
+   2) HOW TO CONFIGURE
+   3) BUILDING OF INDEXES
+   4) LIMITATIONS AND REMARKS
+   5) EXTENSIONS
+ 
+
+------------------------------------------------------------------------------------------
+INTRODUCTION:
+------------------------------------------------------------------------------------------
+
+This script(s) borns to solve the below necessity  :
+
+ - Run in every platform that support PHP >= 4.3
+ - No need of direct CGI run in the server is more secure
+ - No need to recompile in every platform
+ 
+------------------------------------------------------------------------------------------
+HOW TO CONFIGURE:
+------------------------------------------------------------------------------------------
+
+Open the main script file (cddb.php) with every editor and edit the 
+part in "configurations data". The only needed values are the location of
+the access file and the format of Database (Windows or Not).
+
+$SERVER_HOST_NAME   : Name of the server displayed when you say hello.
+
+$CDDB_ACCESS_FILE   : CDDB Access File Location. Note that even in Windows platforms
+                      the path must be written in unix like style (f:/cddb/access.hdr). 
+                      
+$DB_WINDOWS_FORMAT  : Windows style Database (files like A0toA0) (true).
+
+$QUERY_ALWAYS_FUZZY : After search for Exact Matches also return Inexact Matches (false).
+                      
+$QUERY_CHECK_TRACKNUM : Be more restrictive checking the Track Num in exact matches (true).
+
+$PROTO_QUERY_DTITLE : Can the script respond to search extensions of the protocol? 
+                      see CDDBPROTO_EXT file for more informations. (false)
+                      
+$SCRIPT_TIMEOUT : Max Timeout of the script. For long operations or low processors
+                  you must increase this value, remember that you must set a greater 
+                  value in your Web Server too. (1000)
+                      
+$Debug          : Show Debug Info (false) if you set this value to true in the cddb.php
+                  file the clients can't understand this messages :-> 
+ 
+$DO_LOG         : Do Log? (true) if you don't have space or want to speed up the script set to false.
+$LOG_FILE       : Log File location ("./log/cddb.log") you must set write\create file permission.
+                      
+                        
+You can set the Constants below to have a predefined values if not found in access file:
+ 
+ $CDDBDIR ="";
+ $WORKDIR ="";
+ $FUZZY_FACTOR = 900;
+ $FUZZY_DIV = 4;
+
+------------------------------------------------------------------------------------------
+BUILDING OF INDEXES:
+------------------------------------------------------------------------------------------
+
+You can build the indexes files calling "cddb_build_indexes.php" 
+in your Web server or by command line. The command line method is preferred
+because the CGI Time Out limitations, and for a more secure use (you may disallow
+the access to this file to Web Servers for example). Remember that in every case
+you must "login" using the hello command line.
+The Fuzzy Indexes is needed to do inexact matches searches, the DiscId indexes increase
+considerably the speed of exact searches (from 3 sec to 0.9 sec).
+This operation may need 1 Hour or more but is necessary to make the "server" usable in the
+network, if you plane to do only the exact matches you can simply create only the DiscId index.
+
+Usage :
+   cddb_build_indexes.php "hello=<user> <user host> <client name> <client version>" "cmd=<command>"
+   
+   <command> : <type> <categs list>
+      <type>              : A combination of the following types
+                            fuzzy  -> Build fuzzy indexes  ()
+                            discid -> Build DiscId indexes 
+                            dtitle -> Build DTitle indexes (not yet implemented) 
+   
+      fuzzy <categs list> : Build the <categs> fuzzy indexes, 
+                            if no categs is specified build all fuzzy indexes
+
+If not specified all clients and user have the permission to build the indexes,
+if you want to disallow this do something like this in the access file :
+
+client_perms: ch disallow - - -
+
+------------------------------------------------------------------------------------------
+LIMITATIONS AND REMARKS:
+------------------------------------------------------------------------------------------
+
+At this time the script support Level 5 of the Protocol except the submission 
+part that is not yet implemented.
+
+Because the file handling system of PHP is different and very slow in binary 
+mode, i have prefered to change the structure of Fuzzy Index File. The old 
+structure is never changed from this script, infact this script use the path
+ (work_dir/INDEXES/FUZZY/) to store his files. 
+ 
+The Configurations listed below, in HOW TO CONFIGURE section, must be made in 
+every PHP Files that are parts of this "server" because i cannot use the 
+"include" directive of PHP because it adds a space in the response for every call(????). 
+This additional space make the response inusable in clients that parse it.
+
+You can call this scripts from command line using PHP executable directly.
+When you call this scripts from command line remember that spaces are important
+and you must use the "Tildes", calls like this:
+
+C:\PHP\php.exe cddb.php "hello=minni god.it cdex 1.5" "cmd=cddb lscat"
+C:\PHP\php.exe cddb_build_indexes.php "hello=minni god.it ind 1.5" "cmd=fuzzy"
+
+
+To make the protocol more "flexible" i have introduced the $QUERY_ALWAYS_FUZZY variable,
+take a look to this query :
+
+cddb.php?hello=minni+dio.it+tagscan+4.9&cmd=cddb+query+af0b1e0c+12+150+19575+35775+55275+73950+92400+111976+130500+149475+168300+186300+192975+2848
+
+If you set $QUERY_CHECK_TRACKNUM =false and $QUERY_ALWAYS_FUZZY =false the response is:
+  Exact Matches 
+   "Various / Magnificent Hits of the Musicals" af0b1e0c
+   "Shinedown / Leave a Whisper" af0b1e0c
+  that have the same discid but different tracks offsets.
+
+If you set $QUERY_CHECK_TRACKNUM =true the response is:
+  Inexact Matches
+   "Godsmack / Faceless" albums
+
+If you set $QUERY_CHECK_TRACKNUM =true and $QUERY_ALWAYS_FUZZY =true the response is:
+  Exact Matches followed by Inexact Matches
+
+The standard response of the protocol is reached setting 
+$QUERY_CHECK_TRACKNUM =true and $QUERY_ALWAYS_FUZZY =false
+
+------------------------------------------------------------------------------------------
+EXTENSIONS:
+------------------------------------------------------------------------------------------
+
+see CDDBPROTO_EXT for extensions to protocol.
+
+
+                        
+                     
+                     
