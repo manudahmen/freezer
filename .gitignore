@@ -71,3 +71,4 @@ crashlytics-build.properties
 
 #Personal folder
 nbproject/private/*
+app/private.php
