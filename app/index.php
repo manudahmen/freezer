@@ -2,8 +2,7 @@
     <head>
         <title>Freez It !</title>
         <link href="css/page.css" type="text/css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+        <link rel="stylesheet" href="js/jquery-1.11.2.js" />
         <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 
         <script type="text/javascript">
@@ -50,10 +49,8 @@ function playSong()
             <input type="submit" name="submit" value="Eh! Dis-moi quoi?"/><br/>
         </form>
 <?php
+require_once("private.php");
 include("php-gracenote/Gracenote.class.php");
-
-$clientID  = "6368512-177768BC560A8B60B0A8184FF6B0C7D4"; 
-$clientTag = "177768BC560A8B60B0A8184FF6B0C7D4";
 
 $api = new Gracenote\WebAPI\GracenoteWebAPI($clientID, $clientTag); 
 
