@@ -3,20 +3,8 @@
         <title>Freez It !</title>
         <link href="css/page.css" type="text/css" rel="stylesheet" />
         <script src="scripts/jquery-1.11.2.js"></script>
-        <script type="text/javascript">
-           // Search for a specified string.
-            function playsong(searchStr) {
-                $("#search-container").html("regarde y a rien pour le moment!" + 
-                "<a href='https://www.youtube.com/results?search_query=" +
-                searchStr+"' target='new'>link</a>");
-            }
-            
-                $( "a" ).click(function( event ) {
-                event.preventDefault();
-                playsong($( this ).attr("value"));
-            });
-            
-         </script>
+        <script type="text/javascript" src="scripts/play.js">
+          </script>
     </head>    
     <body>
         <!--<iframe id="frameyt" src="" height="200px" width="600px">
