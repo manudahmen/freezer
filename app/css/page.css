@@ -2,3 +2,7 @@ body
 {
     font-family: Whitney, sans-serif;
 }
+album_view
+{
+    border: 3px solid chartreuse;
+}

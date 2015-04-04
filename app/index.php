@@ -65,7 +65,7 @@
                 global $j;
                 global $i;
                 $result0 = $api->fetchAlbum($results[$i]["album_gnid"]);
-                echo "<img src='" . ($result0[0]["album_art_url"]) . "'>";
+                echo "<div id='album_view'><img src='" . ($result0[0]["album_art_url"]) . "'>";
                 echo "<h2><a href='album='>";
                 echo "@" . $result0[0]["album_artist_name"] . " # ";
                 echo $result0[0]["album_title"] . ', date : ' . $results[$i]["album_year"];
@@ -90,8 +90,8 @@
         echo "<li>" . $genre['text'] . "</li>";
     }
     echo "</ul>";
-    echo file_get_contents($results[$i]["review_url"]);
-
+    echo "<div class='album_review'>".file_get_contents($results[$i]["review_url"])."</div>";
+    echo "</div>";
     $i++;
 endwhile;
 ?>
