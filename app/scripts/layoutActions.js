@@ -2,6 +2,7 @@ function mettreEnPageInitiale()
 {
     cacherMettreEnMenu();
     makeAlbumsMenu();
+    cacherBioArtist("authorBioNO")
 }
 function cacherMettreEnMenu()
 {
