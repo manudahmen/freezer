@@ -3,6 +3,7 @@
         <title>Freez It !</title>
         <link href="css/page.css" type="text/css" rel="stylesheet" />
         <script src="scripts/jquery-1.11.2.js"></script>
+        <script src="scripts/layoutActions.js"></script>
         <script type="text/javascript" src="scripts/play.js">
           </script>
     </head>    
@@ -54,8 +55,15 @@
             }
 
             if (isset($results[0])) {
-                echo "<img src='" . $results[0]["artist_image_url"] . "'><span id='authorBioNO'/>";
-                echo file_get_contents($results[0]["artist_bio_url"]);
+            ?>
+                <a id='authorBioNO' onclick='monterBioArtist("authorBioNO")'>Show Bio artist</a>
+                <a id='authorBioNO' onclick='cacherBioArtist("authorBioNO");'>Hide Bio artist</a>
+                <div id='authorBioNO'/>
+                <img src='<?= $results[0]["artist_image_url"] ?>'>
+                    <?= file_get_contents($results[0]["artist_bio_url"])  ?>
+                </div>
+                <?php
+            
             }
 
 
@@ -65,17 +73,18 @@
                 global $j;
                 global $i;
                 $result0 = $api->fetchAlbum($results[$i]["album_gnid"]);
-                echo "<div id='album_view'><img src='" . ($result0[0]["album_art_url"]) . "'>";
-                echo "<h2><a href='album='>";
-                echo "@" . $result0[0]["album_artist_name"] . " # ";
-                echo $result0[0]["album_title"] . ', date : ' . $results[$i]["album_year"];
-                echo "</a></h2>";
-// loop subarrays
-                echo "<ul>";
+                ?><a name ="album<?= $i ?>">Here and else where</a>
+                <h2><a href="#album<?= $i ?>" onclick='montrerAlbum("album<?= $i ?>");'>
+                <?= $result0[0]["album_artist_name"] ?>, 
+                <?= $result0[0]["album_title"] ?>-- date : <?= $results[$i]["album_year"] ?>
+                </a></h2>
+                <div class='album_view' id="album<?= $i ?>"><img src='<?= $result0[0]["album_art_url"] ?>'>
+                <ul>
+                    <?php
                 foreach ($result0[0]['tracks'] as $track) {
                     // again echo anything here you would like.
                     ?>
-                    <li><?php echo $track["track_title"]; ?>
+                    <li><?php echo $track["track_title"] ?>
                         <input type='text' class='musicSpan' id='musicSpan<?php echo $j; ?>' 
                                value="<?php echo $result0[0]["album_artist_name"]; ?> , <?php echo $result0[0]["album_title"]; ?> , <?php echo $track["track_title"]; ?>" />
                         <input type='button' value='play song' onclick="playsong('<?php echo rawurlencode($result0[0]["album_artist_name"]." ". $result0[0]["album_title"] ." ".$track["track_title"]); ?>');" />
@@ -96,6 +105,9 @@
 endwhile;
 ?>
             <div id="#player"></div>
+          <script type="text/javascript">
+              mettreEnPageInitiale();
+          </script>
     </body>
 
 

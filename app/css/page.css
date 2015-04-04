@@ -2,7 +2,13 @@ body
 {
     font-family: Whitney, sans-serif;
 }
-album_view
+.album_view
 {
     border: 3px solid chartreuse;
+}
+.album_view img
+{
+    float: left;
+    width: 200px;
+    height: 200px;
 }
