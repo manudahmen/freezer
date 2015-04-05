@@ -5,12 +5,14 @@
         <script src="scripts/jquery-1.11.2.js"></script>
         <script src="scripts/layoutActions.js"></script>
         <script type="text/javascript" src="scripts/play.js">
+            
           </script>
-    </head>    
+        <script src="scripts/auth.js"></script>
+        <script src="scripts/playlist.js"></script>
+     </head>    
     <body>
         <!--<iframe id="frameyt" src="" height="200px" width="600px">
         </iframe>-->
-        <div id="search-container">Player here</div>
         <div id="search-form-container">
              <form method="GET" action="index.php">
                  <fieldset>
@@ -29,12 +31,12 @@
                  <tr>
                      <td><label>Envoyer:</label></td><td><input type="submit" name="submit-button" value="Clic moi"/></td>
                  </tr>
-                 </tr>
                 </table>
                  
                  </fieldset>
             </form>
         </div>
+        <div id="text_view">
             <?php
             include("php-gracenote/Gracenote.class.php");
             require_once("private.php");
@@ -92,27 +94,39 @@
                     <li><?php echo $track["track_title"] ?>
                         <input type='text' class='musicSpan' id='musicSpan<?php echo $j; ?>' 
                                value="<?php echo $result0[0]["album_artist_name"]; ?> , <?php echo $result0[0]["album_title"]; ?> , <?php echo $track["track_title"]; ?>" />
-                        <input type='button' value='play song' onclick="playsong('<?php echo rawurlencode($result0[0]["album_artist_name"]." ". $result0[0]["album_title"] ." ".$track["track_title"]); ?>');" />
+                        <input type='button' value='Lire chanson sur Youtube' onclick="playsong('<?php echo rawurlencode($result0[0]["album_artist_name"]." ". $result0[0]["album_title"] ." ".$track["track_title"]); ?>');" />
                     </li>
         <?php
         $j++;
     }
-    echo "</ul>";
-    echo "<p class='genre_title'>Genres</p><ul>";
+    ?>
+    </ul>
+    <p class='genre_title'>Genres</p><ul>
+        <?php
     foreach ($result0[0]['genre'] as $genre) {
         // again echo anything here you would like.
         echo "<li>" . $genre['text'] . "</li>";
-    }
-    echo "</ul>";
-    echo "<div class='album_review'>".file_get_contents($results[$i]["review_url"])."</div>";
-    echo "</div>";
+    }?>
+    </ul>
+    <div class='album_review'><?= file_get_contents($results[$i]["review_url"]); ?></div>
+    </div>
+                <?php
     $i++;
 endwhile;
 ?>
             <div id="#player"></div>
+          
+          </div>
+                
+                <div id="media_view">
+                    <div id="search-container">Player here</div>
+                    <br/><span id='query'></span>
+                    <div id="results"/>
+                </div>
           <script type="text/javascript">
               mettreEnPageInitiale();
           </script>
+          <script src="https://apis.google.com/js/client.js?onload=init"></script>
     </body>
 
 

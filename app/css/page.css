@@ -19,3 +19,10 @@ a
 {
     text-decoration: blue underline;
 }
+
+#text_view
+{
+    float: left;
+    width: 50%;
+    
+}
