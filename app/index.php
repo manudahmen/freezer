@@ -28,6 +28,16 @@
                  <td><input type="text" name="album" value="<?php echo filter_input(INPUT_GET, "album") ?>"/>
                  </td>
                  </tr>
+                    <tr>
+                 <td><label>Link to Youtube search</label></td>
+                 <td><input type="checkbox" name="yt" value="<?php echo filter_input(INPUT_GET, "yt") ?>"/>
+                 </td>
+                 </tr>
+                    <tr>
+                 <td><label>Search for Lyrics</label></td>
+                 <td><input type="checkbox" name="lyrics" value="<?php echo filter_input(INPUT_GET, "lyrics") ?>"/>
+                 </td>
+                 </tr>
                  <tr>
                      <td><label>Envoyer:</label></td><td><input type="submit" name="submit-button" value="Clic moi"/></td>
                  </tr>
