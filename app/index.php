@@ -66,13 +66,13 @@
                 $results = $api->searchAlbum($artiste, $album);
             }
 
-            if (isset($results[0])) {
+            if (isset($results[0]["artist_image_url"])) {
             ?>
                 <a id='authorBioNOLinkShow' onclick='montrerBioArtist("authorBioNO")'>Monter Bio artiste</a>
                 <a id='authorBioNOLinkHide' onclick='cacherBioArtist("authorBioNO");'>Cacher Bio artiste</a>
                 <div id='authorBioNO'/>
-                <img src='<?= $results[0]["artist_image_url"] ?>'>
-                    <?= file_get_contents($results[0]["artist_bio_url"])  ?>
+                <img src='<?php echo  $results[0]["artist_image_url"]; ?>'>
+                    <?php echo file_get_contents($results[0]["artist_bio_url"]);  ?>
                 </div>
                 <?php
             
@@ -118,9 +118,14 @@
         echo "<li>" . $genre['text'] . "</li>";
     }?>
     </ul>
-    <div class='album_review'><?= file_get_contents($results[$i]["review_url"]); ?></div>
+    <?php if($results[$i]["review_url"]!="")
+    { ?>
+    <div class='album_review'>
+        <p><a href="<?php echo $results[$i]["review_url"];?>">Album review</a></p>
+    <?= file_get_contents($results[$i]["review_url"]); ?></div>
     </div>
                 <?php
+    }
     $i++;
 endwhile;
 ?>
